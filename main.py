@@ -5,19 +5,22 @@ resonate = Resonate.local()
 
 
 def baz(_: Context, greetee: str) -> str:
+    print("running baz")
     return f"Hello {greetee} from baz!"
 
 
 def bar(_: Context, greetee: str) -> str:
+    print("running bar")
     return f"Hello {greetee} from bar!"
 
 
 @resonate.register
 def foo(ctx: Context, greetee: str) -> Generator[str, Any, Any]:
+    print("running foo")
     foo_greeting = f"Hello {greetee} from foo!"
     bar_greeting = yield ctx.run(bar, greetee=greetee)
     baz_greeting = yield ctx.run(baz, greetee=greetee)
-    greeting = f"{foo_greeting}\n{bar_greeting}\n{baz_greeting}"
+    greeting = f"{foo_greeting} {bar_greeting} {baz_greeting}"
     return greeting
 
 
