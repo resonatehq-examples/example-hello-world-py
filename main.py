@@ -4,25 +4,27 @@ from typing import Generator, Any
 resonate = Resonate.local()
 
 
-def baz(_: Context, noun: str) -> str:
-    return f"Hello {noun} from baz!"
+def baz(_: Context, greetee: str) -> str:
+    return f"Hello {greetee} from baz!"
 
 
-def bar(ctx: Context, noun: str) -> Generator[str, Any, Any]:
-    greeting = yield ctx.run(baz, noun=noun)
-    return f"Hello {noun} from bar! {greeting}"
+def bar(_: Context, greetee: str) -> str:
+    return f"Hello {greetee} from bar!"
 
 
 @resonate.register
-def foo(ctx: Context, noun: str) -> Generator[str, Any, Any]:
-    greeting = yield ctx.run(bar, noun=noun)
-    return f"Hello {noun} from foo! {greeting}"
+def foo(ctx: Context, greetee: str) -> Generator[str, Any, Any]:
+    foo_greeting = f"Hello {greetee} from foo!"
+    bar_greeting = yield ctx.run(bar, greetee=greetee)
+    baz_greeting = yield ctx.run(baz, greetee=greetee)
+    greeting = f"{foo_greeting}\n{bar_greeting}\n{baz_greeting}"
+    return greeting
 
 
 def main():
     try:
-        promise_id = "hello-world"
-        result = foo.run(promise_id, noun="Cully")
+        promise_id = "hello-world-example"
+        result = foo.run(promise_id, greetee="World")
         print(result)
     except Exception as e:
         print(e)

@@ -1,6 +1,6 @@
-![Resonate example application banner](/assets/resonate-example-app-readme-banner.png)
+![hello world banner](/assets/hello-world-banner.png)
 
-# Hello World!
+# Classic 'Hello World!'
 
 **Resonate Python SDK**
 
