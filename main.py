@@ -15,7 +15,7 @@ def bar(_: Context, greetee: str) -> str:
 
 
 @resonate.register
-def foo(ctx: Context, greetee: str) -> Generator[str, Any, Any]:
+def foo(ctx: Context, greetee: str) -> Generator[Any, Any, str]:
     print("running foo")
     foo_greeting = f"Hello {greetee} from foo!"
     bar_greeting = yield ctx.run(bar, greetee=greetee)
